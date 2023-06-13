@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO Chat Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="chat-form">
+      <input id="input-message" autocomplete="off" />
+      <button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script >// Connect to the server
+        var socket = io();
+        
+        // Handle form submission
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('input-message');
+        const room ='test2';
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const msg = input.value.trim();
+          if (msg) {
+            // Send the message to the server
+            socket.emit('chat message', {msg,room});
+            input.value = '';
+          }
+        });
+        
+        // Handle incoming messages
+        const messages = document.getElementById('messages');
+        socket.on('chat message', (msg) => {
+          const li = document.createElement('li');
+          li.textContent = msg;
+          messages.appendChild(li);
+        });
+        socket.on('connect',() =>{
+          socket.emit('join',{room})
+        })
+        </script>
+  </body>
+</html>

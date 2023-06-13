@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <p> select your room</p>
+    <ul id="rooms">
+      <li><a href="/room1">room1</a><br/></li>
+      <li><a href ="/room2">room2</a><br/></li>
+      </ul>
+  </body>
+  <script>
+    const rooms = '<%= rooms %>'
+      const roomList = rooms.split(",");
+    
+    
+
+    for (const name of roomList){
+            if (name!='')
+            {
+            const rooms = document.getElementById('rooms');
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.setAttribute("href","/room?name="+name);
+            a.textContent = name;
+            li.appendChild(a);
+            rooms.appendChild(li);
+            
+            httpGet(name);
+            }
+        }
+        
+        
+  </script>
+</html>

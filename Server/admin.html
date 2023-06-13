@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <p> select your room</p>
+    <ul id="rooms">
+    <li><a href="/room1">room1</a><br/></li>
+    <li><a href ="/room2">room2</a><br/></li>
+    </ul>
+    <p>Create Rooms</p>
+    <input id="input-room-name"/>
+    <button onclick="createRoom()">Create Room</button>
+    <script>
+        const rooms = '<%= rooms %>'
+        const roomList = rooms.split(",");
+        function createRoom(){
+            var name = document.getElementById("input-room-name").value;
+            if (roomList.includes(name)) {
+            alert("Room already exists!"); // Display an alert message
+            return; // Exit the function if the room already exists
+            }
+            const rooms = document.getElementById('rooms');
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.setAttribute("href","/room?name="+name);
+            a.textContent = name;
+            li.appendChild(a);
+            rooms.appendChild(li);
+            httpGet(name);
+        }
+        function httpGet(name){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET","/addRoom?name="+name,false);
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+        for (const name of roomList){
+            if (name!='')
+            {
+            const rooms = document.getElementById('rooms');
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.setAttribute("href","/room?name="+name);
+            a.textContent = name;
+            li.appendChild(a);
+            rooms.appendChild(li);
+            
+            httpGet(name);
+            }
+        }
+    </script>
+  </body>
+</html>
